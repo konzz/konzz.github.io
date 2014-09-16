@@ -4,12 +4,13 @@ title:  "AngularJS + Firebase Calendar"
 date:   2014-09-15 17:33:31
 tags: angularjs firebase
 ---
-<p>
-    <a href="http://angularjs.org/">AngularJS</a> and <a href="http://firebase.com">Firebase</a> do a very good combo to do real time apps. Since AngularJS ofers you a good framework with double-data-binding Firebase ofers a realtime-database, also firebase has <a href="http://firebase.com/docs/web/libraries/angular/">AngularFire</a> to make them work together perfectly.
-  </p>
-  <p>So I created a calendar that works with Firebase so sync the events between different clients. This is the bower.json with the dependencies.</p>
 
-<pre><code class="prism language-javascript">{
+[AngularJS][] and [Firebase][] do a very good combo to do real time apps. Since AngularJS ofers you a good framework with double-data-binding Firebase ofers a realtime-database, also firebase has [AngularFire][] to make them work together perfectly.
+
+So I created a calendar that works with Firebase so sync the events between different clients. This is the bower.json with the dependencies.
+
+```javascript
+{
   "name": "calendar",
   "version": "1.0.0",
   "dependencies": {
@@ -21,27 +22,39 @@ tags: angularjs firebase
     "angularfire": "0.8.2",
     "bootstrap": "3.0.3"
   }
-}</code></pre>
+}
+```
 
-  <p>We will use the <a href="http://github.com/angular-ui/ui-calendar">angular-ui-calendar</a> that mixes <a href="http://fullcalendar.io">fullcalendar</a> with angular, and <a href="http://github.com/angular-ui/ui-date">angular-ui-date</a> for the datepickers.</p>
-  <p>Lets start by creating an angular controler</p>
-  <pre><code class="prism language-javascript">angular.module('calendar', ['ui.calendar', 'ui.date', 'firebase'])
+We will use the [angular-ui-calendar][] that mixes [fullcalendar][] with angular, and [angular-ui-date][] for the datepickers.
+
+Lets start by creating an angular controler
+
+```javascript
+angular.module('calendar', ['ui.calendar', 'ui.date', 'firebase'])
 .controller('calendar', ['$scope', '$firebase', function($scope, $firebase){
     $scope.events = [[]];
-}]);</code></pre>
+}]);
+```
 
-  <p>angular-ui-calendar expects the events to be an array "event sources", and those event sources can be arrays, functions, or urls thar return a json of events. We will use an array, so for now we set events as an array inside of an array. Add the calendar to the view</p>
-  <pre><code class="prism language-javascript">&lt;div ui-calendar ng-model="events">&lt;/div></code></pre>
+angular-ui-calendar expects the events to be an array "event sources", and those event sources can be arrays, functions, or urls thar return a json of events. We will use an array, so for now we set events as an array inside of an array. Add the calendar to the view
+
+```javascript
+<div ui-calendar ng-model="events"></div>
+```
   
-  <p>Now, we will a form to add new events.</p>
-  <p>So the form will look like:</p>
-  <pre><code class="prism language-javascript">&lt;form ng-submit="addEvent()">
-  &lt;input ng-model="newEvent.title" type="text" placeholder="Title">
-  &lt;input ui-date ui-date-format="DD, d MM, yy" ng-model="newEvent.start">
-  &lt;input type="submit" value="Add">
-&lt;/form></code></pre>
-<p>and in the controller a method addEvent()</p>
-<pre><code class="prism language-javascript">$scope.newEvent = {
+Now, we will a form to add new events, that will look like:
+
+```javascript
+<form ng-submit="addEvent()">
+  <input ng-model="newEvent.title" type="text" placeholder="Title">
+  <input ui-date ui-date-format="DD, d MM, yy" ng-model="newEvent.start">
+  <input type="submit" value="Add">
+</form>
+```
+and in the controller a method addEvent()
+
+```javascript
+$scope.newEvent = {
   title: '',
   start: ''
 };
@@ -53,25 +66,50 @@ $scope.addEvent = function(){
     title: '',
     start: ''
   };
-}</code></pre>
+}
+```
 
-<p>We have an object newEvent in the $scope, and our form is bound to it, the addEvent method, pushes that object into our events array, and then clears the values. Right now we have a calendar and a way to add events to it, but we still need to sync with firebase.</p>
+We have an object newEvent in the $scope, and our form is bound to it, the addEvent method, pushes that object into our events array, and then clears the values. Right now we have a calendar and a way to add events to it, but we still need to sync with firebase.
 
-<p>So our next step is to create an account in <a href="http://firebase.com/signup/">firebase</a>, if we dont have one yet, go to your dashboard, and open the app that firebase creates for you, then copy the that url, it will be something like this:</p>
-<pre><code class="prism language-javascript">"https://scorching-inferno-2434.firebaseio.com/"</code></pre>
+So our next step is to create an account in [firebase][firebase_signup], if we dont have one yet, go to your dashboard, and open the app that firebase creates for you, then copy the that url, it will be something like this:
 
-<p>Inside the controller now we have to create a firebase object like this</p>
-<pre><code class="prism language-javascript">var firebaseEvents = new Firebase("https://scorching-inferno-2434.firebaseio.com/");</code></pre>
+```javascript
+"https://scorching-inferno-2434.firebaseio.com/"
+```
 
-<p>$firebase is the facotry that bounds firebase and angular, now that you have a firebase object, we pass it to $firebase to create an object that comunicates with angular</p>
-<pre><code class="prism language-javascript">var events = $firebase(firebaseEvents);</code></pre>
+Inside the controller now we have to create a firebase object like this:
 
-<p>The next step is to substitute our previous array of events, for the firebase array. The angularfire object knows how to work as an object or as an array, we need an arra of events so we will use $asArray()</p>
-<pre><code class="prism language-javascript">$scope.events = [events.$asArray()];</code></pre>
+```javascript
+var firebaseEvents = new Firebase("https://scorching-inferno-2434.firebaseio.com/");
+```
 
-<p>And as the last step, in our addEvent() method, we will use $push() instead of push</p>
-<pre><code class="prism language-javascript">events.$push($scope.newEvent);</code></pre>
+$firebase is the facotry that bounds firebase and angular, now that you have a firebase object, we pass it to $firebase to create an object that comunicates with angular
 
-<p>In this demo I dont cover authentication, and any user can modify the events, but you should put authentication and review the user permissions in your app</p>
-<p>You can get the complete demo from my github account <a href="http://github.com/konzz/angular-firebase-calendar">here</a></p>
+```javascript
+var events = $firebase(firebaseEvents);
+```
 
+The next step is to substitute our previous array of events, for the firebase array. The angularfire object knows how to work as an object or as an array, we need an arra of events so we will use $asArray()
+
+```javascript
+$scope.events = [events.$asArray()];
+```
+
+And as the last step, in our addEvent() method, we will use $push() instead of push
+
+```javascript
+events.$push($scope.newEvent);
+```
+
+In this demo I dont cover authentication, and any user can modify the events, but you should put authentication and review the user permissions in your app.
+
+You can get the complete demo from my github account [here][githube_project]
+
+[AngularJS]: http://angularjs.org
+[Firebase]: http://firebase.com
+[firebase_signup]: http://firebase.com/signup/
+[AngularFire]: http://firebase.com/docs/web/libraries/angular/
+[angular-ui-calendar]: http://github.com/angular-ui/ui-calendar
+[fullcalendar]: http://fullcalendar.io
+[angular-ui-date]: http://github.com/angular-ui/ui-date
+[githube_project]: http://github.com/konzz/angular-firebase-calendar

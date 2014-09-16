@@ -11,6 +11,6 @@ twitter_username: konzz
 github_username:  konzz
 
 # Build settings
-markdown: kramdown
+markdown: redcarpet
 highlighter: pygments
 encoding: UTF-8
