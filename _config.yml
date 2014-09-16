@@ -1,7 +1,7 @@
 # Site settings
 title: Blog of a javascript passionate
 email: acasadotorres@gmail.com
-description: > I'm a javascript passionate that likes to try new technologies and write about it.
+description:I'm a javascript passionate that likes to try new technologies and write about it.
 baseurl: "" # the subpath of your site, e.g. /blog/
 url: "http://konzz.github.io" # the base hostname & protocol for your site
 twitter_username: konzz
