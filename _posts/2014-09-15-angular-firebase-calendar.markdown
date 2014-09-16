@@ -42,7 +42,7 @@ angular-ui-calendar expects the events to be an array "event sources", and those
 <div ui-calendar ng-model="events"></div>
 ```
   
-Now, we will a form to add new events, that will look like:
+Now, we need a form to add new events, that will look like:
 
 ```javascript
 <form ng-submit="addEvent()">
@@ -69,9 +69,9 @@ $scope.addEvent = function(){
 }
 ```
 
-We have an object newEvent in the $scope, and our form is bound to it, the addEvent method, pushes that object into our events array, and then clears the values. Right now we have a calendar and a way to add events to it, but we still need to sync with firebase.
+We have an object newEvent in the $scope and our form is bound to it, the addEvent method pushes that object into our events array and then clears the values. Right now we have a calendar and a way to add events to it, but we still need to sync with firebase.
 
-So our next step is to create an account in [firebase][firebase_signup], if we dont have one yet, go to your dashboard, and open the app that firebase creates for you, then copy the that url, it will be something like this:
+So our next step is to create an account in [firebase][firebase_signup] if we dont have one yet, go to your dashboard and open the app that firebase creates for you, then copy the url, it will be something like this:
 
 ```javascript
 "https://scorching-inferno-2434.firebaseio.com/"
