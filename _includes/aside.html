@@ -1,0 +1,19 @@
+<aside class="col-md-offset-2 col-md-2 col-sm-3 col-sm-offset-1">
+  <header>
+    <h4>About me</h4>
+  </header>
+  <img src="/css/img/me.png" class="img-thumbnail" alt="alberto casado">
+  <p>I'm a passionated JavaScript developer. I like to explore new frameworks and tecnologies. Always trying to have an agile mindset.</p>
+  <p>I also like cooking.</p>
+  <a href="http://twitter.com/Konzz">
+    <img src="{{ "/css/img/twitter.png" | prepend: site.baseurl }}" width="20px">@konzz
+  </a>
+  <h4 class="page-heading">Posts</h4>
+  <ul class="post-list">
+    {% for post in site.posts %}
+    <li>
+      <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+</aside>
