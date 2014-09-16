@@ -101,7 +101,7 @@ And as the last step, in our addEvent() method, we will use $push() instead of p
 events.$push($scope.newEvent);
 ```
 
-In this demo I dont cover authentication, and any user can modify the events, but you should put authentication and review the user permissions in your app.
+In this demo I dont cover firebase authentication, and any user can modify the events, but you should put authentication and review the user permissions in your app.
 
 You can get the complete demo from my github account [here][githube_project]
 

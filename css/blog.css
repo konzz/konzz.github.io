@@ -49,3 +49,8 @@ a, a:hover, a:visited{
 aside p {
   font-size: 1.2em;
 }
+
+ul {
+  list-style: none;
+  padding-left: 0;
+}
