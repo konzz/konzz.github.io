@@ -52,7 +52,9 @@ Now, we need a form to add new events, that will look like
   <input type="submit" value="Add">
 </form>
 ```
-note that we are using the ``ui-date`` directive that will generate a datepicker integrated with angular. In the controller we create a method ``addEvent()``
+note that we are using the ``ui-date`` directive that will generate a datepicker integrated with angular.
+
+In the controller we create the method ``addEvent()``
 
 ```javascript
 $scope.newEvent = {
@@ -84,7 +86,7 @@ Inside the controller now we have to create a firebase object like this
 var firebaseEvents = new Firebase("https://scorching-inferno-2434.firebaseio.com/");
 ```
 
-``$firebase`` is a facotry that AngularFire provides us to bind firebase and angular. Now that we have a firebase object, we pass it to ``$firebase``to create an object that comunicates with angular
+Now that we have a firebase object, we pass it to ``$firebase``, that is a facotry that AngularFire provides us to bind firebase and angular
 
 ```javascript
 var events = $firebase(firebaseEvents);
