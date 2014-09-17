@@ -7,7 +7,7 @@ tags: angularjs firebase
 
 [AngularJS][] and [Firebase][] do a very good combo to do real time apps. Since AngularJS ofers you a good framework with double-data-binding Firebase ofers a realtime-database, also firebase has [AngularFire][] to make them work together perfectly.
 
-So I created a calendar that works with Firebase so sync the events between different clients. This is the bower.json with the dependencies.
+So I created a calendar that syncs the events between different clients in real time. This is the bower.json with the dependencies.
 
 ```javascript
 {
@@ -36,13 +36,14 @@ angular.module('calendar', ['ui.calendar', 'ui.date', 'firebase'])
 }]);
 ```
 
-angular-ui-calendar expects the events to be an array "event sources", and those event sources can be arrays, functions, or urls thar return a json of events. We will use an array, so for now we set events as an array inside of an array. Add the calendar to the view
+angular-ui-calendar expects the events to be an array "event sources", and those event sources can be arrays, functions, or urls that return a json of events. We will use an array, so for now we set events as an array inside of an array. 
+Add the calendar to the view using the ``ui-calendar`` directive.
 
 ```javascript
 <div ui-calendar ng-model="events"></div>
 ```
   
-Now, we need a form to add new events, that will look like:
+Now, we need a form to add new events, that will look like
 
 ```javascript
 <form ng-submit="addEvent()">
@@ -51,7 +52,7 @@ Now, we need a form to add new events, that will look like:
   <input type="submit" value="Add">
 </form>
 ```
-and in the controller a method addEvent()
+note that we are using the ``ui-date`` directive that will generate a datepicker integrated with angular. In the controller we create a method ``addEvent()``
 
 ```javascript
 $scope.newEvent = {
@@ -69,33 +70,33 @@ $scope.addEvent = function(){
 }
 ```
 
-We have an object newEvent in the $scope and our form is bound to it, the addEvent method pushes that object into our events array and then clears the values. Right now we have a calendar and a way to add events to it, but we still need to sync with firebase.
+We have an object ``newEvent`` in the ``$scope`` and our form is bound to it, the ``addEvent()`` method pushes that object into our events array and then clears the values. Right now we have a calendar and a way to add events to it, but we still need to sync with firebase.
 
-So our next step is to create an account in [firebase][firebase_signup] if we dont have one yet, go to your dashboard and open the app that firebase creates for you, then copy the url, it will be something like this:
+So our next step is to create an account in [firebase][firebase_signup] if we dont have one yet, go to your dashboard and open the app that firebase creates for you, then copy the url, it will be something like this
 
 ```javascript
 "https://scorching-inferno-2434.firebaseio.com/"
 ```
 
-Inside the controller now we have to create a firebase object like this:
+Inside the controller now we have to create a firebase object like this
 
 ```javascript
 var firebaseEvents = new Firebase("https://scorching-inferno-2434.firebaseio.com/");
 ```
 
-$firebase is the facotry that bounds firebase and angular, now that you have a firebase object, we pass it to $firebase to create an object that comunicates with angular
+``$firebase`` is a facotry that AngularFire provides us to bind firebase and angular. Now that we have a firebase object, we pass it to ``$firebase``to create an object that comunicates with angular
 
 ```javascript
 var events = $firebase(firebaseEvents);
 ```
 
-The next step is to substitute our previous array of events, for the firebase array. The angularfire object knows how to work as an object or as an array, we need an arra of events so we will use $asArray()
+The next step is to substitute our previous array of events, for the firebase array. The AngularFire object knows how to work as an object or as an array, we need an arra of events so we will use the ``$asArray()`` method
 
 ```javascript
 $scope.events = [events.$asArray()];
 ```
 
-And as the last step, in our addEvent() method, we will use $push() instead of push
+And as the last step, in our ``addEvent()`` method, we will use ``$push()`` instead of ``push``
 
 ```javascript
 events.$push($scope.newEvent);
@@ -103,13 +104,13 @@ events.$push($scope.newEvent);
 
 In this demo I dont cover firebase authentication, and any user can modify the events, but you should put authentication and review the user permissions in your app.
 
-You can get the complete demo from my github account [here][githube_project]
+You can get the complete demo from my github [here][githube_project]
 
-[AngularJS]: http://angularjs.org
-[Firebase]: http://firebase.com
-[firebase_signup]: http://firebase.com/signup/
-[AngularFire]: http://firebase.com/docs/web/libraries/angular/
-[angular-ui-calendar]: http://github.com/angular-ui/ui-calendar
-[fullcalendar]: http://fullcalendar.io
-[angular-ui-date]: http://github.com/angular-ui/ui-date
-[githube_project]: http://github.com/konzz/angular-firebase-calendar
+[AngularJS]: http://angularjs.org "AngularJS"
+[Firebase]: http://firebase.com "Firebase"
+[firebase_signup]: http://firebase.com/signup/ "Firebase Singup"
+[AngularFire]: http://firebase.com/docs/web/libraries/angular/ "AngularFire"
+[angular-ui-calendar]: http://github.com/angular-ui/ui-calendar "Angular-ui Calendar"
+[fullcalendar]: http://fullcalendar.io "Fullcalendar"
+[angular-ui-date]: http://github.com/angular-ui/ui-date "Angular-ui date"
+[githube_project]: http://github.com/konzz/angular-firebase-calendar "Konzz Github"

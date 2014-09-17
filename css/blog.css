@@ -11,6 +11,11 @@ html,body{
   color: #26ADE4;
 }
 
+code{
+  background-color: #272822;
+  color: #26ADE4;
+}
+
 
 #header {
   margin-bottom: 40px;
