@@ -5,7 +5,7 @@ date:   2014-09-15 17:33:31
 tags: angularjs firebase
 ---
 
-[AngularJS][] and [Firebase][] do a very good combo to do real time apps. Since AngularJS ofers you a good framework with double-data-binding Firebase ofers a realtime-database, also firebase has [AngularFire][] to make them work together perfectly.
+[AngularJS][] and [Firebase][] do a very good combo to do real time apps. Since AngularJS offers you a good framework with double-data-binding Firebase offers a realtime-database, also firebase has [AngularFire][] to make them work together perfectly.
 
 So I created a calendar that syncs the events between different clients in real time. This is the bower.json with the dependencies.
 
@@ -86,13 +86,13 @@ Inside the controller now we have to create a firebase object like this
 var firebaseEvents = new Firebase("https://scorching-inferno-2434.firebaseio.com/");
 ```
 
-Now that we have a firebase object, we pass it to ``$firebase``, that is a facotry that AngularFire provides us to bind firebase and angular
+Now that we have a firebase object, we pass it to ``$firebase``, that is a factory that AngularFire provides us to bind firebase and angular
 
 ```javascript
 var events = $firebase(firebaseEvents);
 ```
 
-The next step is to substitute our previous array of events, for the firebase array. The AngularFire object knows how to work as an object or as an array, we need an arra of events so we will use the ``$asArray()`` method
+The next step is to substitute our previous array of events, for the firebase array. The AngularFire object knows how to work as an object or as an array, we need an array of events so we will use the ``$asArray()`` method
 
 ```javascript
 $scope.events = [events.$asArray()];
@@ -104,7 +104,7 @@ And as the last step, in our ``addEvent()`` method, we will use ``$push()`` inst
 events.$push($scope.newEvent);
 ```
 
-In this demo I dont cover firebase authentication, and any user can modify the events, but you should put authentication and review the user permissions in your app.
+In this demo I don't cover firebase authentication, and any user can modify the events, but you should put authentication and review the user permissions in your app.
 
 You can get the complete demo from my github [here][githube_project]
 
